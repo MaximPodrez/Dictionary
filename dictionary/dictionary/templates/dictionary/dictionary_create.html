@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>add dictionary</title>
+    </head>
+    <body>
+        <form action="" method="post">
+            {% csrf_token %}
+            Title: {{ form.title }}<br>
+            <input type="submit">
+        </form>
+    </body>
+</html>

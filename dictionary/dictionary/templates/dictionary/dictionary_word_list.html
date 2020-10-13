@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>words</title>
+    </head>
+    <body>
+        <h2>Word list of the dictionary "{{ dict.title }}"</h2>
+        <h4>Here you can sort and find words</h4>
+        <h4><a href="{% url 'dictionary:create-word-view' dict.pk %}">Add word</a></h4>
+        <form action="">
+            {{ form.sort_field }}
+            {{ form.search }}
+            <input type="submit">
+        </form>
+        <br>
+        <table border="1" width="30%" cellpadding="5">
+            <tr>
+                <th>Word</th>
+                <th>Frequency</th>
+                <th>Delete</th>
+                <th>Update</th>
+            </tr>
+            {% for word in word_list %}
+                <tr>
+                    <td><strong>{{ word.label }}</strong></td>
+                    <td>{{ word.frequency }}</td>
+                    <td><a href="{% url 'dictionary:delete-word-view' word.dictionary.id word.id %}">Click</a></td>
+                    <td><a href="{% url 'dictionary:update-word-view' word.dictionary.id word.id %}">Click</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </body>
+</html>

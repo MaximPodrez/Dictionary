@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ dict.title }}</title>
+    </head>
+    <body>
+        <h2>Information about dictionary:</h2>
+        <ul>
+            <li><h4>name: {{ dict.title }}</h4></li>
+            <li><h4>dictionary id: {{ dict.id }} </h4></li>
+            <li><h4>count of unique words: {{ dict.word_set.count }} </h4></li>
+            <li><h4>creation date: {{ dict.creation_date }} </h4></li>
+            <li><h4><a href="{% url 'dictionary:word-list-view' dict.id %}">words</a></h4></li>
+            <li><h4><a href="{% url 'dictionary:text-list-view' dict.id %}">texts</a></h4></li>
+        </ul>
+    </body>
+</html>

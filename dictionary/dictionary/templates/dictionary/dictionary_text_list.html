@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Texts</title>
+    </head>
+    <body>
+        <a href="{% url 'dictionary:create-text-view' pk=dict.pk %} ">
+            <button type="submit">Add</button>
+        </a>
+        {% if text_list %}
+            <ul>
+            {% for text in text_list %}
+                <li><a href="{% url 'dictionary:text-info-view' dict.pk  text.pk %}">{{ text.title }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No texts are available.</p>
+        {% endif %}
+    </body>
+</html>

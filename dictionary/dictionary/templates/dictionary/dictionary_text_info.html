@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ text.title }}</title>
+    </head>
+    <body>
+        <h2>Information about text:</h2>
+        <ul>
+            <li><h4>name: {{ text.title }}</h4></li>
+            <li><h4>text id: {{ text.id }} </h4></li>
+            <li><h4>dictionary: {{ text.dictionary.title }} </h4></li>
+            <li><h4>creation date: {{ text.creation_date }} </h4></li>
+            <li><h4><a href="{% url 'dictionary:update-text-view' text.dictionary.id text.id %}">Update text</a></h4></li>
+        </ul>
+        <h2>Text:</h2>
+        {{ text.text }}
+    </body>
+</html>

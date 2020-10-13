@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Dictionaries</title>
+    </head>
+    <body>
+        <a href="{% url 'dictionary:create-dictionary' %} ">
+            <button type="submit">Add</button>
+        </a>
+        {% if dict_list %}
+            <ul>
+            {% for dict in dict_list %}
+                <li><a href={% url 'dictionary:dictionary-info-view' dict.pk %}>{{ dict.title }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No dicts are available.</p>
+        {% endif %}
+    </body>
+</html>
