@@ -6,6 +6,8 @@ from .models import Dictionary, Word, Text
 from .forms import WordListForm, DictionaryForm, TextForm, WordForm
 import re
 
+updated_word = None
+
 
 class DictionaryListView(generic.ListView):
     template_name = 'dictionary/dictionary_list.html'
@@ -236,6 +238,16 @@ class WordUpdateView(generic.UpdateView):
 class WordDeleteView(generic.DeleteView):
     model = Word
     template_name = 'dictionary/dictionary_delete_word.html'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        dict = self.object.dictionary
+        #texts = dict.texts.filter(text__contains=self.object.label)
+        for text in dict.texts.all():
+            if self.object.label in text.text:
+                text.text = re.sub(r'\b' + self.object.label + r'\b', '', text.text, flags=re.I)
+                text.save()
+        return super(WordDeleteView, self).delete(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse_lazy('dictionary:word-list-view', kwargs={'pk': self.kwargs.get('pk_dict')})
