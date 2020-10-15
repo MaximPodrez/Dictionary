@@ -203,10 +203,13 @@ class WordCreateView(generic.CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.label = self.object.label.title()
-        self.object.frequency = 0
-        self.object.dictionary = Dictionary.objects.get(pk=self.kwargs.get('pk'))
-        self.object.save()
+        try:
+            Word.objects.get(label=self.object.label.title())
+        except Word.DoesNotExist:
+            self.object.label = self.object.label.title()
+            self.object.frequency = 0
+            self.object.dictionary = Dictionary.objects.get(pk=self.kwargs.get('pk'))
+            self.object.save()
         return redirect(self.get_success_url())
 
     def get_success_url(self):
@@ -219,18 +222,19 @@ class WordUpdateView(generic.UpdateView):
     template_name = 'dictionary/dictionary_update_word.html'
 
     def form_valid(self, form):
-        # global updated_word
         updated_word = self.get_object().label
         self.object = form.save(commit=False)
         for text in self.object.dictionary.texts.filter(text__icontains=updated_word):
             text.text = re.sub(r'\b' + updated_word + r'\b', self.object.label, text.text, flags=re.I)
             text.save()
         try:
-            word = self.object.dictionary.word_set.get(label=self.object.label)
-            word.frequency += self.object.frequency
+            word = self.object.dictionary.word_set.get(label=self.object.label.title())
+            if word.id != self.object.id:
+                word.frequency += self.object.frequency
+                self.object.delete()
             word.save()
-            self.object.delete()
         except Word.DoesNotExist:
+            self.object.label = self.object.label.title()
             self.object.save()
         return redirect(self.get_success_url())
 
@@ -247,9 +251,8 @@ class WordDeleteView(generic.DeleteView):
         dict = self.object.dictionary
         texts = dict.texts.filter(text__icontains=self.object.label)
         for text in texts:
-            if self.object.label in text.text:
-                text.text = re.sub(r'\b' + self.object.label + r'\b', '', text.text, flags=re.I)
-                text.save()
+            text.text = re.sub(r'\b' + self.object.label + r'\b', '', text.text, flags=re.I)
+            text.save()
         return super(WordDeleteView, self).delete(request, *args, **kwargs)
 
     def get_success_url(self):
