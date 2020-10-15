@@ -6,8 +6,6 @@ from .models import Dictionary, Word, Text
 from .forms import WordListForm, DictionaryForm, TextForm, WordForm
 import re
 
-updated_word = None
-
 
 class DictionaryListView(generic.ListView):
     template_name = 'dictionary/dictionary_list.html'
@@ -221,7 +219,12 @@ class WordUpdateView(generic.UpdateView):
     template_name = 'dictionary/dictionary_update_word.html'
 
     def form_valid(self, form):
+        # global updated_word
+        updated_word = self.get_object().label
         self.object = form.save(commit=False)
+        for text in self.object.dictionary.texts.filter(text__icontains=updated_word):
+            text.text = re.sub(r'\b' + updated_word + r'\b', self.object.label, text.text, flags=re.I)
+            text.save()
         try:
             word = self.object.dictionary.word_set.get(label=self.object.label)
             word.frequency += self.object.frequency
@@ -242,8 +245,8 @@ class WordDeleteView(generic.DeleteView):
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         dict = self.object.dictionary
-        #texts = dict.texts.filter(text__contains=self.object.label)
-        for text in dict.texts.all():
+        texts = dict.texts.filter(text__icontains=self.object.label)
+        for text in texts:
             if self.object.label in text.text:
                 text.text = re.sub(r'\b' + self.object.label + r'\b', '', text.text, flags=re.I)
                 text.save()
@@ -251,8 +254,3 @@ class WordDeleteView(generic.DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('dictionary:word-list-view', kwargs={'pk': self.kwargs.get('pk_dict')})
-
-
-class WordTextListView(DictionaryListView):
-    model = Text
-    template_name = 'dictionary/dictionary_word_text_list.html'
