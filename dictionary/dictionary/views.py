@@ -1,3 +1,4 @@
+import nltk
 from django.db.models import QuerySet
 from django.urls import reverse_lazy
 from django.views import generic
@@ -46,35 +47,6 @@ class TextDetailView(generic.DetailView):
     model = Text
 
 
-class TextCreteView(generic.FormView):
-    form_class = TextForm
-    template_name = 'dictionary/dictionary_create_text.html'
-
-    def form_valid(self, form):
-        file = form.cleaned_data.get('file')
-        dict = Dictionary.objects.get(pk=self.kwargs.get('pk'))
-        self.text = dict.texts.create(title=file.name, text=file.read().decode())
-        raw_text = re.sub(r'[^\s\w]', '', self.text.text).split()
-        my_dict = {}
-        for word in raw_text:
-            if word.title() not in my_dict:
-                my_dict[word.title()] = 0
-
-            my_dict[word.title()] += 1
-        for name, frequency in my_dict.items():
-            try:
-                word = dict.word_set.get(label=name)
-                word.frequency += frequency
-                word.save()
-            except Word.DoesNotExist:
-                dict.word_set.create(label=name, frequency=frequency)
-        dict.save()
-        return redirect(self.get_success_url())
-
-    def get_success_url(self):
-        return reverse_lazy('dictionary:text-info-view', kwargs={'pk_dict': self.kwargs.get('pk'), 'pk': self.text.id})
-
-
 class TextCreateView(generic.CreateView):
     form_class = TextForm
     model = Text
@@ -87,22 +59,63 @@ class TextCreateView(generic.CreateView):
         self.object.text = file.read().decode()
         dict = Dictionary.objects.get(pk=self.kwargs.get('pk'))
         self.object.dictionary = dict
+        raw_text = re.sub(r'[^\s\w\']', '', self.object.text)
+        word_list = nltk.word_tokenize(raw_text)
+        word_tag_pair_list = nltk.pos_tag(word_list)
+        word_tag_list = []
+
+        for word, code in word_tag_pair_list:
+            word_tag_list.append(word)
+            word_tag_list.append(code)
+
+        word_tag_text = "_".join(word_tag_list)
+        self.object.tags_text = word_tag_text
         self.object.save()
-        raw_text = re.sub(r'[^\s\w]', '', self.object.text).split()
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy('dictionary:check-tags-text-view', kwargs={'pk_dict': self.kwargs.get('pk'), 'pk': self.object.id})
+
+
+class TextUpdateTagsView(generic.UpdateView):
+    model = Text
+    fields = ['tags_text']
+    template_name = 'dictionary/dictionary_text_check_tags.html'
+
+    def form_valid(self, form):
+        self.object = form.save()
+        word_tag_text = self.object.tags_text
+        word_tag_list = word_tag_text.split('_')
+        word_tags = {}
+        for i in range(0, len(word_tag_list), 2):
+            word = word_tag_list[i].title()
+            tag = word_tag_list[i+1]
+            if word in word_tags:
+                if tag not in word_tags[word]:
+                    word_tags[word].append(tag)
+            else:
+                word_tags[word] = [tag]
+
         parse_text_dict = {}
-        for word in raw_text:
+        raw_text = re.sub(r'[^\s\w\']', '', self.object.text)
+        word_list = nltk.word_tokenize(raw_text)
+        for word in word_list:
             if word.title() not in parse_text_dict:
                 parse_text_dict[word.title()] = 0
 
             parse_text_dict[word.title()] += 1
         for name, frequency in parse_text_dict.items():
             try:
-                word = dict.word_set.get(label=name)
+                word = self.object.dictionary.word_set.get(label=name)
                 word.frequency += frequency
+                for tag in word_tags[name]:
+                    if tag not in word.tags:
+                        word.tags += f',{tag}'
                 word.save()
             except Word.DoesNotExist:
-                dict.word_set.create(label=name, frequency=frequency)
-        dict.save()
+                tags = ','.join(word_tags[name])
+                self.object.dictionary.word_set.create(label=name, frequency=frequency, tags=tags)
+        self.object.dictionary.save()
         return redirect(self.get_success_url())
 
 

@@ -18,15 +18,16 @@
             <tr>
                 <th>Word</th>
                 <th>Frequency</th>
-                <th>Delete</th>
-                <th>Update</th>
+                <th>Tags</th>
+                <th>Operations</th>
             </tr>
             {% for word in word_list %}
                 <tr>
                     <td><strong>{{ word.label }}</strong></td>
                     <td>{{ word.frequency }}</td>
-                    <td><a href="{% url 'dictionary:delete-word-view' word.dictionary.id word.id %}">Click</a></td>
-                    <td><a href="{% url 'dictionary:update-word-view' word.dictionary.id word.id %}">Click</a></td>
+                    <td>{{ word.tags }}</td>
+                    <td><a href="{% url 'dictionary:delete-word-view' word.dictionary.id word.id %}">Delete</a>
+                    <a href="{% url 'dictionary:update-word-view' word.dictionary.id word.id %}"> Update</a></td>
                 </tr>
             {% endfor %}
         </table>
