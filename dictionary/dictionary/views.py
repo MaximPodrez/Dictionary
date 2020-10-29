@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.shortcuts import redirect
 from .models import Dictionary, Word, Text
-from .forms import WordListForm, DictionaryForm, TextForm, WordForm
+from .forms import WordListForm, DictionaryForm, TextForm, WordForm, TextTagsForm
 import re
 
 
@@ -85,7 +85,7 @@ class TextCreateView(generic.CreateView):
 
 class TextUpdateTagsView(generic.UpdateView):
     model = Text
-    fields = ['tags_text']
+    form_class = TextTagsForm
     template_name = 'dictionary/dictionary_text_check_tags.html'
 
     def get_context_data(self, **kwargs):

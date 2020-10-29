@@ -21,7 +21,7 @@ class Text(models.Model):
     title = models.CharField(max_length=255)
     text = models.TextField()
     creation_date = models.DateTimeField(auto_now_add=True)
-    tags_text = models.TextField(max_length=255)
+    tags_text = models.TextField()
     dictionary = models.ForeignKey(Dictionary, related_name='texts', on_delete=models.CASCADE)
 
     def get_absolute_url(self):

@@ -27,3 +27,14 @@ class WordForm(forms.ModelForm):
     class Meta(object):
         model = Word
         fields = ['label']
+
+
+class TextTagsForm(forms.ModelForm):
+    class Meta(object):
+        model = Text
+        fields = ['tags_text']
+        widgets = {
+            'tags_text': forms.Textarea(attrs={'id': 'comment-content', 'name': 'content',
+                                               'class': 'form-control rounded-0', 'placeholder': 'Create comment',
+                                               'rows': '33'})
+        }
