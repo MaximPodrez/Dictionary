@@ -24,22 +24,27 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'dictionary:tags-info' %}">Help</a>
                 </li>
+
             </ul>
             <span class="navbar-text">
                 Word list of {{ dict.title }}
             </span>
         </div>
     </nav>
-	<h2>Word list of the dictionary "{{ dict.title }}"</h2>
-    <h4>Here you can sort and find words</h4>
-    <h4><a href="{% url 'dictionary:create-word-view' dict.pk %}">Add word</a></h4>
+    <a href="{% url 'dictionary:create-word-view' dict.pk %}"><button type="button" class="btn btn-light btn-lg btn-block" style="background-color: gainsboro">Add word</button></a>
     <form action="">
-        {{ form.sort_field }}
-        {{ form.search }}
-        <input type="submit">
+        <div class="form-row align-items-center" style="display: inline-block; width: 30%;" >
+            <div class="col-auto my-1">
+                {{ form.sort_field }}
+            </div>
+        </div>
+        <div style="display: inline-block; width: 65%;">
+            {{ form.search }}
+        </div>
+        <button type="submit" class="btn btn-outline-secondary" style="width: 90px;">Submit</button>
+
     </form>
-    <br>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
         <caption>List of words</caption>
         <thead class="thead-dark">
             <tr>

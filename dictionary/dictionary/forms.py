@@ -5,8 +5,9 @@ from .models import Dictionary, Text, Word
 class WordListForm(forms.Form):
     sort_field = forms.ChoiceField(choices=(
         ('frequency', 'frequency ↑'), ('-frequency', 'frequency ↓'), ('label', 'name ↑'), ('-label', 'name ↓')),
-        required=False)
-    search = forms.CharField(required=False)
+        required=False, widget=forms.Select(attrs={'class': 'custom-select mr-sm-2', 'id': 'inlineFormCustomSelect'}))
+    search = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text',
+                                                                           'placeholder': 'Search...'}))
 
 
 class DictionaryForm(forms.ModelForm):
