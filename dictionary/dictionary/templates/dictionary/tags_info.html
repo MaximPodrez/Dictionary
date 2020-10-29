@@ -1,0 +1,350 @@
+{% extends "dictionary/dictionary_template.html" %}
+
+{% block title %}
+    Dictionaries
+{% endblock %}
+
+{% block content %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Dictionary</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'dictionary:dictionary-list-view' %}">Dictionaries <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dictionary:tags-info' %}">Help</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                Information about tags
+            </span>
+        </div>
+    </nav>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">CC: conjunction, coordinating</h5>
+                <p class="card-text">& 'n and both but either et for less minus neither nor or plus so therefore times v. versus vs. whether yet</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">DT: determiner</h5>
+                <p class="card-text">all an another any both del each either every half la many much nary
+                    neither no some such that the them these this those</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">CD: numeral, cardinal</h5>
+                <p class="card-text">mid-1890 nine-thirty forty-two one-tenth ten million 0.5 one forty-
+                    seven 1987 twenty '79 zero two 78-degrees eighty-four IX '60s .025
+                    fifteen 271,124 dozen quintillion DM2,000 ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">EX: existential there</h5>
+                <p class="card-text">there</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">FW: foreign word</h5>
+                <p class="card-text">gemeinschaft hund ich jeux habeas Haementeria Herr K'ang-si vous
+                    lutihaw alai je jour objets salutaris fille quibusdam pas trop Monte
+                    terram fiche oui corporis ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">IN: preposition or conjunction, subordinating</h5>
+                <p class="card-text">astride among uppon whether out inside pro despite on by throughout
+                    below within for towards near behind atop around if like until below
+                    next into if beside ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">JJ: adjective or numeral, ordinal</h5>
+                <p class="card-text">third ill-mannered pre-war regrettable oiled calamitous first separable
+                    ectoplasmic battery-powered participatory fourth still-to-be-named
+                    multilingual multi-disciplinary ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">JJR: adjective, comparative</h5>
+                <p class="card-text">bleaker braver breezier briefer brighter brisker broader bumper busier
+                    calmer cheaper choosier cleaner clearer closer colder commoner costlier
+                    cozier creamier crunchier cuter ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">JJS: adjective, superlative</h5>
+                <p class="card-text">calmest cheapest choicest classiest cleanest clearest closest commonest
+                    corniest costliest crassest creepiest crudest cutest darkest deadliest
+                    dearest deepest densest dinkiest ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">LS: list item marker</h5>
+                <p class="card-text">A A. B B. C C. D E F First G H I J K One SP-44001 SP-44002 SP-44005
+                    SP-44007 Second Third Three Two * a b c d first five four one six three
+                    two</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">MD: modal auxiliary</h5>
+                <p class="card-text">can cannot could couldn't dare may might must need ought shall should
+                    shouldn't will would</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">NN: noun, common, singular or mass</h5>
+                <p class="card-text">common-carrier cabbage knuckle-duster Casino afghan shed thermostat
+                    investment slide humour falloff slick wind hyena override subhumanity
+                    machinist ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">NNP: noun, proper, singular</h5>
+                <p class="card-text">Motown Venneboerger Czestochwa Ranzer Conchita Trumplane Christos
+                    Oceanside Escobar Kreisler Sawyer Cougar Yvette Ervin ODI Darryl CTCA
+                    Shannon A.K.C. Meltex Liverpool ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">NNPS: noun, proper, plural</h5>
+                <p class="card-text">Americans Americas Amharas Amityvilles Amusements Anarcho-Syndicalists
+                    Andalusians Andes Andruses Angels Animals Anthony Antilles Antiques
+                    Apache Apaches Apocrypha ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">NNS: noun, common, plural</h5>
+                <p class="card-text">undergraduates scotches bric-a-brac products bodyguards facets coasts
+                    divestitures storehouses designs clubs fragrances averages
+                    subjectivists apprehensions muses factory-jobs ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">PDT: pre-determiner</h5>
+                <p class="card-text">all both half many quite such sure this</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">POS: genitive marker</h5>
+                <p class="card-text">' 's</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">PRP: pronoun, personal</h5>
+                <p class="card-text">hers herself him himself hisself it itself me myself one oneself ours
+                    ourselves ownself self she thee theirs them themselves they thou thy us</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">PRP$: pronoun, possessive</h5>
+                <p class="card-text">her his mine my our ours their thy your</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">RB: adverb</h5>
+                <p class="card-text">occasionally unabatingly maddeningly adventurously professedly
+                    stirringly prominently technologically magisterially predominately
+                    swiftly fiscally pitilessly ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">RBR: adverb, comparative</h5>
+                <p class="card-text">further gloomier grander graver greater grimmer harder harsher
+                    healthier heavier higher however larger later leaner lengthier less-
+                    perfectly lesser lonelier longer louder lower more ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">RBS: adverb, superlative</h5>
+                <p class="card-text">best biggest bluntest earliest farthest first furthest hardest
+                    heartiest highest largest least less most nearest second tightest worst</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">RP: particle</h5>
+                <p class="card-text">aboard about across along apart around aside at away back before behind
+                    by crop down ever fast for forth from go high i.e. in into just later
+                    low more off on open out over per pie raising start teeth that through
+                    under unto up up-pp upon whole with you</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">SYM: symbol</h5>
+                <p class="card-text"> % & ' '' ''. ) ). * + ,. < = > @ A[fj] U.S U.S.S.R * ** ***</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">TO: "to" as preposition or infinitive marker</h5>
+                <p class="card-text">to</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">UH: interjection</h5>
+                <p class="card-text">Goodbye Goody Gosh Wow Jeepers Jee-sus Hubba Hey Kee-reist Oops amen
+                    huh howdy uh dammit whammo shucks heck anyways whodunnit honey golly
+                    man baby diddle hush sonuvabitch ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">VB: verb, base form</h5>
+                <p class="card-text">ask assemble assess assign assume atone attention avoid bake balkanize
+                    bank begin behold believe bend benefit bevel beware bless boil bomb
+                    boost brace break bring broil brush build ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">VBD: verb, past tense</h5>
+                <p class="card-text">dipped pleaded swiped regummed soaked tidied convened halted registered
+                    cushioned exacted snubbed strode aimed adopted belied figgered
+                    speculated wore appreciated contemplated ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">VBG: verb, present participle or gerund</h5>
+                <p class="card-text">telegraphing stirring focusing angering judging stalling lactating
+                    hankerin' alleging veering capping approaching traveling besieging
+                    encrypting interrupting erasing wincing ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">VBN: verb, past participle</h5>
+                <p class="card-text">multihulled dilapidated aerosolized chaired languished panelized used
+                    experimented flourished imitated reunifed factored condensed sheared
+                    unsettled primed dubbed desired ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">VBP: verb, present tense, not 3rd person singular</h5>
+                <p class="card-text">predominate wrap resort sue twist spill cure lengthen brush terminate
+                    appear tend stray glisten obtain comprise detest tease attract
+                    emphasize mold postpone sever return wag ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">VBZ: verb, present tense, 3rd person singular</h5>
+                <p class="card-text">bases reconstructs marks mixes displeases seals carps weaves snatches
+                    slumps stretches authorizes smolders pictures emerges stockpiles
+                    seduces fizzes uses bolsters slaps speaks pleads ...</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">WDT: WH-determiner</h5>
+                <p class="card-text">that what whatever which whichever</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"> WP: WH-pronoun</h5>
+                <p class="card-text">that what whatever whatsoever which who whom whosoever</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">WP$: WH-pronoun, possessive</h5>
+                <p class="card-text">whose</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">WRB: Wh-adverb</h5>
+                <p class="card-text">how however whence whenever where whereby whereever wherein whereof why</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

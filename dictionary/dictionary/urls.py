@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.DictionaryListView.as_view(), name='dictionary-list-view'),
     path('<int:pk>/', views.DictionaryDetailView.as_view(), name='dictionary-info-view'),
     path('add/', views.DictionaryCreateView.as_view(), name='create-dictionary'),
+    path('help/', views.TagsInfoView.as_view(), name='tags-info'),
     path('<int:pk>/words/', views.WordListView.as_view(), name='word-list-view'),
     path('<int:pk>/words/add/', views.WordCreateView.as_view(), name='create-word-view'),
     path('<int:pk_dict>/words/delete/<int:pk>', views.WordDeleteView.as_view(), name='delete-word-view'),

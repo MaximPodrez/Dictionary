@@ -52,6 +52,11 @@ class TextCreateView(generic.CreateView):
     model = Text
     template_name = 'dictionary/dictionary_create_text.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(TextCreateView, self).get_context_data(**kwargs)
+        context['dict'] = self.kwargs.get('pk')
+        return context
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         file = form.cleaned_data.get('file')
@@ -74,13 +79,19 @@ class TextCreateView(generic.CreateView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy('dictionary:check-tags-text-view', kwargs={'pk_dict': self.kwargs.get('pk'), 'pk': self.object.id})
+        return reverse_lazy('dictionary:check-tags-text-view',
+                            kwargs={'pk_dict': self.kwargs.get('pk'), 'pk': self.object.id})
 
 
 class TextUpdateTagsView(generic.UpdateView):
     model = Text
     fields = ['tags_text']
     template_name = 'dictionary/dictionary_text_check_tags.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(TextUpdateTagsView, self).get_context_data(**kwargs)
+        context['dict'] = self.kwargs.get('pk_dict')
+        return context
 
     def form_valid(self, form):
         self.object = form.save()
@@ -89,7 +100,7 @@ class TextUpdateTagsView(generic.UpdateView):
         word_tags = {}
         for i in range(0, len(word_tag_list), 2):
             word = word_tag_list[i].title()
-            tag = word_tag_list[i+1]
+            tag = word_tag_list[i + 1]
             if word in word_tags:
                 if tag not in word_tags[word]:
                     word_tags[word].append(tag)
@@ -178,7 +189,8 @@ class TextUpdateView(generic.UpdateView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy('dictionary:text-info-view', kwargs={'pk_dict': self.kwargs.get('pk_dict'), 'pk': self.kwargs.get('pk')})
+        return reverse_lazy('dictionary:text-info-view',
+                            kwargs={'pk_dict': self.kwargs.get('pk_dict'), 'pk': self.kwargs.get('pk')})
 
 
 class WordListView(generic.ListView):
@@ -213,6 +225,11 @@ class WordCreateView(generic.CreateView):
     form_class = WordForm
     model = Word
     template_name = 'dictionary/dictionary_create_word.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(WordCreateView, self).get_context_data(**kwargs)
+        context['dict'] = self.kwargs.get('pk')
+        return context
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -259,6 +276,11 @@ class WordDeleteView(generic.DeleteView):
     model = Word
     template_name = 'dictionary/dictionary_delete_word.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(WordDeleteView, self).get_context_data(**kwargs)
+        context['dict'] = self.kwargs.get('pk_dict')
+        return context
+
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         dict = self.object.dictionary
@@ -270,3 +292,7 @@ class WordDeleteView(generic.DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('dictionary:word-list-view', kwargs={'pk': self.kwargs.get('pk_dict')})
+
+
+class TagsInfoView(generic.TemplateView):
+    template_name = 'dictionary/tags_info.html'

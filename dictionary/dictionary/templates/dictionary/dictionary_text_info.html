@@ -1,19 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>{{ text.title }}</title>
-    </head>
-    <body>
-        <h2>Information about text:</h2>
-        <ul>
-            <li><h4>name: {{ text.title }}</h4></li>
-            <li><h4>text id: {{ text.id }} </h4></li>
-            <li><h4>dictionary: {{ text.dictionary.title }} </h4></li>
-            <li><h4>creation date: {{ text.creation_date }} </h4></li>
-            <li><h4><a href="{% url 'dictionary:update-text-view' text.dictionary.id text.id %}">Update text</a></h4></li>
-        </ul>
-        <h2>Text:</h2>
-        {{ text.text }}
-    </body>
-</html>
+{% extends "dictionary/dictionary_template.html" %}
+
+{% block title %}
+    {{ text.title }}
+{% endblock %}
+
+{% block content %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Dictionary</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'dictionary:dictionary-list-view' %}">Dictionaries <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'dictionary:text-list-view' text.dictionary.id %}">Texts <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dictionary:word-list-view' text.dictionary.id %}">Words</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dictionary:tags-info' %}">Help</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                Text's information
+            </span>
+        </div>
+    </nav>
+    <div class="card text-center">
+        <div class="card-header">
+            Information about text:
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Name: {{ text.title }}</h5>
+            <p class="card-text">dictionary: {{ text.dictionary.title }}</p>
+            <a href="{% url 'dictionary:update-text-view' text.dictionary.id text.id %}" class="btn btn-primary">Update</a>
+        </div>
+        <div class="card-footer text-muted">
+            {{ text.creation_date }}
+        </div>
+    </div>
+    {{ text.text }}
+{% endblock %}

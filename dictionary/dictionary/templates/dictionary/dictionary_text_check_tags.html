@@ -1,7 +1,7 @@
 {% extends "dictionary/dictionary_template.html" %}
 
 {% block title %}
-    Add dictionary
+    Check tags
 {% endblock %}
 
 {% block content %}
@@ -15,18 +15,24 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'dictionary:dictionary-list-view' %}">Dictionaries <span class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'dictionary:text-list-view' dict %}">Texts <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dictionary:word-list-view' dict %}">Words</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'dictionary:tags-info' %}">Help</a>
                 </li>
             </ul>
             <span class="navbar-text">
-                Create dictionary
+                Check tags
             </span>
         </div>
     </nav>
-	<form action="" method="post">
+	<form method="post">
         {% csrf_token %}
-        Title: {{ form.title }}<br>
-        <input type="submit">
+        {{ form.as_p }}
+        <input type="submit" value="Update">
     </form>
 {% endblock %}

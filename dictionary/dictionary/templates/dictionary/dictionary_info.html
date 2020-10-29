@@ -1,18 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>{{ dict.title }}</title>
-    </head>
-    <body>
-        <h2>Information about dictionary:</h2>
-        <ul>
-            <li><h4>name: {{ dict.title }}</h4></li>
-            <li><h4>dictionary id: {{ dict.id }} </h4></li>
-            <li><h4>count of unique words: {{ dict.word_set.count }} </h4></li>
-            <li><h4>creation date: {{ dict.creation_date }} </h4></li>
-            <li><h4><a href="{% url 'dictionary:word-list-view' dict.id %}">words</a></h4></li>
-            <li><h4><a href="{% url 'dictionary:text-list-view' dict.id %}">texts</a></h4></li>
-        </ul>
-    </body>
-</html>
+{% extends "dictionary/dictionary_template.html" %}
+
+{% block title %}
+    {{ dict.title }}
+{% endblock %}
+
+{% block content %}
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Dictionary</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'dictionary:dictionary-list-view' %}">Dictionaries <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'dictionary:text-list-view' dict.id %}">Texts <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dictionary:word-list-view' dict.id %}">Words</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dictionary:tags-info' %}">Help</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                {{ dict.title }} information
+            </span>
+        </div>
+    </nav>
+    <div class="card text-center">
+        <div class="card-header">
+            Information about dictionary
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Name: {{ dict.title }}</h5>
+            <p class="card-text">{{ dict.word_set.count }} unique word(s)</p>
+            <p class="card-text">{{ dict.texts.count }} text(s)</p>
+        </div>
+        <div class="card-footer text-muted">
+            {{ dict.creation_date }}
+        </div>
+    </div>
+{% endblock %}

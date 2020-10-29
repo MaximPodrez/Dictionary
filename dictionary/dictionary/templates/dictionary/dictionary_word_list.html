@@ -1,52 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>words</title>
-    </head>
-    <body>
-        <h2>Word list of the dictionary "{{ dict.title }}"</h2>
-        <h4>Here you can sort and find words</h4>
-        <h4><a href="{% url 'dictionary:create-word-view' dict.pk %}">Add word</a></h4>
-        <form action="">
-            {{ form.sort_field }}
-            {{ form.search }}
-            <input type="submit">
-        </form>
-        <br>
-        <table border="1" width="30%" cellpadding="5">
+{% extends "dictionary/dictionary_template.html" %}
+
+{% block title %}
+    Words
+{% endblock %}
+
+{% block content %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Dictionary</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'dictionary:dictionary-list-view' %}">Dictionaries <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'dictionary:text-list-view' dict.id %}">Texts <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dictionary:word-list-view' dict.id %}">Words</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dictionary:tags-info' %}">Help</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                Word list of {{ dict.title }}
+            </span>
+        </div>
+    </nav>
+	<h2>Word list of the dictionary "{{ dict.title }}"</h2>
+    <h4>Here you can sort and find words</h4>
+    <h4><a href="{% url 'dictionary:create-word-view' dict.pk %}">Add word</a></h4>
+    <form action="">
+        {{ form.sort_field }}
+        {{ form.search }}
+        <input type="submit">
+    </form>
+    <br>
+    <table class="table table-bordered">
+        <caption>List of words</caption>
+        <thead class="thead-dark">
             <tr>
-                <th>Word</th>
-                <th>Frequency</th>
-                <th>Tags</th>
-                <th>Operations</th>
+                <th scope="col">Word</th>
+                <th scope="col">Frequency</th>
+                <th scope="col">Tags</th>
+                <th scope="col">Operations</th>
             </tr>
+        </thead>
+        <tbody>
             {% for word in word_list %}
                 <tr>
                     <td><strong>{{ word.label }}</strong></td>
                     <td>{{ word.frequency }}</td>
                     <td>{{ word.tags }}</td>
                     <td><a href="{% url 'dictionary:delete-word-view' word.dictionary.id word.id %}">Delete</a>
-                    <a href="{% url 'dictionary:update-word-view' word.dictionary.id word.id %}"> Update</a></td>
-                </tr>
+                        <a href="{% url 'dictionary:update-word-view' word.dictionary.id word.id %}"> Update</a></td>
+                    </tr>
             {% endfor %}
-        </table>
-        <div class="pagination">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-                {% endif %}
+        </tbody>
+    </table>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
 
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
-
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
             </span>
-        </div>
-    </body>
-</html>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

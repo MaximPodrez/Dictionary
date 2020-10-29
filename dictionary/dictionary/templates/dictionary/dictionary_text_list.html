@@ -1,21 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Texts</title>
-    </head>
-    <body>
-        <a href="{% url 'dictionary:create-text-view' pk=dict.pk %} ">
-            <button type="submit">Add</button>
-        </a>
-        {% if text_list %}
-            <ul>
-            {% for text in text_list %}
-                <li><a href="{% url 'dictionary:text-info-view' dict.pk  text.pk %}">{{ text.title }}</a></li>
-            {% endfor %}
+{% extends "dictionary/dictionary_template.html" %}
+
+{% block title %}
+    Texts
+{% endblock %}
+
+{% block content %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Dictionary</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'dictionary:dictionary-list-view' %}">Dictionaries <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'dictionary:text-list-view' dict.id %}">Texts <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dictionary:word-list-view' dict.id %}">Words</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dictionary:tags-info' %}">Help</a>
+                </li>
             </ul>
-        {% else %}
-            <p>No texts are available.</p>
-        {% endif %}
-    </body>
-</html>
+            <span class="navbar-text">
+                Texts
+            </span>
+        </div>
+    </nav>
+    <div style="width: 700px; margin: 0 auto;">
+	    <a href="{% url 'dictionary:create-text-view' pk=dict.pk %}" style="text-align:center; width: 700px;">
+            <button type="button" class="btn btn-primary btn-lg btn-block">Add</button>
+        </a>
+    </div>
+    {% if text_list %}
+        <div class="list-group" style="width: 700px; margin: 0 auto;">
+            {% for text in text_list %}
+                <a href="{% url 'dictionary:text-info-view' dict.pk  text.pk %}" class="list-group-item list-group-item-action" style="text-align: center;">{{ text.title }}</a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No texts are available.</p>
+    {% endif %}
+{% endblock %}
