@@ -83,13 +83,13 @@ class TextCreateView(generic.CreateView):
                             kwargs={'pk_dict': self.kwargs.get('pk'), 'pk': self.object.id})
 
 
-class TextUpdateTagsView(generic.UpdateView):
+class TextCheckTagsView(generic.UpdateView):
     model = Text
     form_class = TextTagsForm
     template_name = 'dictionary/dictionary_text_check_tags.html'
 
     def get_context_data(self, **kwargs):
-        context = super(TextUpdateTagsView, self).get_context_data(**kwargs)
+        context = super(TextCheckTagsView, self).get_context_data(**kwargs)
         context['dict'] = self.kwargs.get('pk_dict')
         return context
 
@@ -127,6 +127,54 @@ class TextUpdateTagsView(generic.UpdateView):
                 tags = ','.join(word_tags[name])
                 self.object.dictionary.word_set.create(label=name, frequency=frequency, tags=tags)
         self.object.dictionary.save()
+        return redirect(self.get_success_url())
+
+
+class TextUpdateTagsView(generic.UpdateView):
+    model = Text
+    form_class = TextTagsForm
+    context_object_name = 'text'
+    template_name = 'dictionary/dictionary_text_update_tags.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        word_tag_text = Text.objects.get(pk=self.kwargs.get('pk')).tags_text
+        word_tag_list = word_tag_text.split('_')
+        self.old_word_tags = {}
+        for i in range(0, len(word_tag_list), 2):
+            word = word_tag_list[i].title()
+            tag = word_tag_list[i + 1]
+            if word in self.old_word_tags:
+                if tag not in self.old_word_tags[word]:
+                    self.old_word_tags[word] += f',{tag}'
+            else:
+                self.old_word_tags[word] = tag
+        return super(TextUpdateTagsView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(TextUpdateTagsView, self).get_context_data(**kwargs)
+        context['dict'] = self.kwargs.get('pk_dict')
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save()
+        word_tag_text = self.object.tags_text
+        word_tag_list = word_tag_text.split('_')
+        word_tags = {}
+        for i in range(0, len(word_tag_list), 2):
+            word = word_tag_list[i].title()
+            tag = word_tag_list[i + 1]
+            if word in word_tags:
+                if tag not in word_tags[word]:
+                    word_tags[word] += f',{tag}'
+            else:
+                word_tags[word] = tag
+
+        for word, tags in word_tags.items():
+            # We think, that user changes only tags, because we don't check new words
+            if tags != self.old_word_tags[word]:
+                word_object = Word.objects.get(label=word)
+                word_object.tags = tags
+                word_object.save()
         return redirect(self.get_success_url())
 
 

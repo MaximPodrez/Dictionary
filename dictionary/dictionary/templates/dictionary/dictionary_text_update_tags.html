@@ -1,7 +1,7 @@
 {% extends "dictionary/dictionary_template.html" %}
 
 {% block title %}
-    {{ text.title }}
+    Update tags
 {% endblock %}
 
 {% block content %}
@@ -16,35 +16,30 @@
                     <a class="nav-link" href="{% url 'dictionary:dictionary-list-view' %}">Dictionaries <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'dictionary:text-list-view' text.dictionary.id %}">Texts <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'dictionary:text-list-view' dict %}">Texts <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'dictionary:word-list-view' text.dictionary.id %}">Words</a>
+                    <a class="nav-link" href="{% url 'dictionary:word-list-view' dict %}">Words</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'dictionary:tags-info' %}">Help</a>
                 </li>
             </ul>
             <span class="navbar-text">
-                Text's information
+                Update tags
             </span>
         </div>
     </nav>
-    <div class="card text-center">
-        <div class="card-header">
-            Information about text:
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Name: {{ text.title }}</h5>
-            <p class="card-text">dictionary: {{ text.dictionary.title }}</p>
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <a href="{% url 'dictionary:update-text-view' text.dictionary.id text.id %}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Update text</a>
-                <a href="{% url 'dictionary:update-tags-view' text.dictionary.id text.id %}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Update tags</a>
+    <form method="post" id="post-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                </div>
+                {{ form.tags_text }}
             </div>
+            <button type="submit" class="btn btn-primary float-right"> Save </button>
         </div>
-        <div class="card-footer text-muted">
-            {{ text.creation_date }}
-        </div>
-    </div>
-    {{ text.text }}
+    </form>
 {% endblock %}

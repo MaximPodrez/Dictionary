@@ -15,7 +15,8 @@ urlpatterns = [
     path('<int:pk_dict>/words/<int:pk>/update/', views.WordUpdateView.as_view(), name='update-word-view'),
     path('<int:pk>/texts/', views.TextListView.as_view(), name='text-list-view'),
     path('<int:pk>/texts/add/', views.TextCreateView.as_view(), name='create-text-view'),
-    path('<int:pk_dict>/texts/add/check/<int:pk>', views.TextUpdateTagsView.as_view(), name='check-tags-text-view'),
+    path('<int:pk_dict>/texts/add/check/<int:pk>', views.TextCheckTagsView.as_view(), name='check-tags-text-view'),
     path('<int:pk_dict>/texts/<int:pk>/', views.TextDetailView.as_view(), name='text-info-view'),
-    path('<int:pk_dict>/texts/update/<int:pk>/', views.TextUpdateView.as_view(), name='update-text-view')
+    path('<int:pk_dict>/texts/update/text/<int:pk>/', views.TextUpdateView.as_view(), name='update-text-view'),
+    path('<int:pk_dict>/texts/update/tags/<int:pk>/', views.TextUpdateTagsView.as_view(), name='update-tags-view')
 ]
