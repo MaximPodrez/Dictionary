@@ -38,8 +38,8 @@
             <h5 class="card-title">Name: {{ text.title }}</h5>
             <p class="card-text">dictionary: {{ text.dictionary.title }}</p>
             <div class="btn-group" role="group" aria-label="Basic example">
-                <a href="{% url 'dictionary:update-text-view' text.dictionary.id text.id %}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Update text</a>
-                <a href="{% url 'dictionary:update-tags-view' text.dictionary.id text.id %}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Update tags</a>
+                <a href="{% url 'dictionary:update-text-view' text.dictionary.id text.id %}" class="btn btn-outline-secondary btn-sm" role="button" aria-pressed="true">Update words</a>
+                <a href="{% url 'dictionary:update-tags-view' text.dictionary.id text.id %}" class="btn btn-outline-secondary btn-sm" role="button" aria-pressed="true">Update tags</a>
             </div>
         </div>
         <div class="card-footer text-muted">
